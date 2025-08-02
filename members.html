@@ -1,1 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Members Resources | Bushy Run Chapter No. 192</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Roboto', sans-serif;
+      background-color: #f8f8f8;
+      color: #222;
+      line-height: 1.6;
+    }
+    header {
+      background-color: #800000;
+      color: white;
+      padding: 3rem 1rem;
+      text-align: center;
+    }
+    header img {
+      max-width: 120px;
+      height: auto;
+      margin-bottom: 1rem;
+    }
+    header h1 {
+      font-family: 'Libre Baskerville', serif;
+      font-size: 2.5rem;
+      margin: 0;
+    }
+    nav {
+      background-color: #5c0000;
+      padding: 0.75rem 1rem;
+    }
+    .nav-links {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 2.5rem;
+    }
+    .nav-links a {
+      color: white;
+      text-decoration: none;
+      font-size: 1.25rem;
+      font-weight: bold;
+    }
+    .section {
+      max-width: 900px;
+      margin: 3rem auto;
+      padding: 0 1.5rem;
+    }
+    .section h2 {
+      color: #800000;
+      font-size: 2rem;
+      border-bottom: 2px solid #800000;
+      padding-bottom: 0.5rem;
+      margin-bottom: 1.5rem;
+      font-family: 'Libre Baskerville', serif;
+    }
+    .video-container {
+      position: relative;
+      padding-bottom: 56.25%;
+      height: 0;
+      overflow: hidden;
+      margin-bottom: 2rem;
+    }
+    .video-container iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+    footer {
+      background-color: #222;
+      color: #ccc;
+      text-align: center;
+      padding: 2rem 1rem;
+      margin-top: 3rem;
+      font-size: 0.9rem;
+    }
+    #welcome {
+      text-align: center;
+      margin: 1rem 0;
+      font-weight: bold;
+      font-size: 1.1rem;
+      color: #444;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <img src="https://paroyalarch.org/wp-content/uploads/2023/05/cropped-Grand-Holy-Royal-Arch2.png" alt="Royal Arch Emblem">
+    <h1>Bushy Run Chapter No. 192</h1>
+    <p>Royal Arch Masons of Pennsylvania, Irwin, PA</p>
+  </header>
+
+  <nav>
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="meeting-info.html">Meeting Info</a>
+      <a href="officers.html">Officers</a>
+      <a href="past-high-priests.html">Past High Priests</a>
+      <a href="history.html">Our History</a>
+      <a href="join.html">Join Us</a>
+      <a href="contact.html">Contact</a>
+    </div>
+  </nav>
+
+  <div id="welcome"></div>
+
+  <section class="section">
+    <h2>Members Resources</h2>
+
+    <h3>Official Charity of Royal Arch Chapters in PA</h3>
+    <div class="video-container">
+      <iframe src="https://www.youtube.com/embed/TBT4SDNhl78" frameborder="0" allowfullscreen></iframe>
+    </div>
+
+    <h3>Background on York Rite Freemasonry</h3>
+    <div class="video-container">
+      <iframe src="https://www.youtube.com/embed/tCf-h_fp3Ig" frameborder="0" allowfullscreen></iframe>
+    </div>
+
+    <h3>Ritual & Degree Resources</h3>
+    <p>Coming soon: downloadable PDFs and degree rehearsal materials.</p>
+
+    <h3>Officer Tools</h3>
+    <p>Check back soon for officer handbooks, guidelines, and responsibilities.</p>
+  </section>
+
+  <footer>
+    &copy; 2025 Bushy Run Chapter No. 192. All rights reserved.
+  </footer>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
+    import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyCev2Nen2UzirnyjkV7lhW_2a3jcazdDaY",
+      authDomain: "bushy-run-members-site.firebaseapp.com",
+      projectId: "bushy-run-members-site",
+      storageBucket: "bushy-run-members-site.firebasestorage.app",
+      messagingSenderId: "545538387619",
+      appId: "1:545538387619:web:758d450d1c746912ed9916",
+      measurementId: "G-45DP6N14WL"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        const welcome = document.getElementById('welcome');
+        welcome.textContent = `Welcome, ${user.displayName || user.email}`;
+      } else {
+        window.location.href = "login.html";
+      }
+    });
+  </script>
+</body>
+</html>
 
