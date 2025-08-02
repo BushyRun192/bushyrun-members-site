@@ -70,11 +70,26 @@
       cursor: pointer;
       margin-bottom: 0.75rem;
     }
-    button.google {
-      background-color: #4285F4;
-    }
     button:hover {
       opacity: 0.9;
+    }
+    .google-btn {
+      background-color: white;
+      border: 1px solid #ccc;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      padding: 0.5rem;
+      margin-bottom: 1rem;
+      cursor: pointer;
+      font-weight: bold;
+      font-size: 1rem;
+      color: #444;
+    }
+    .google-btn img {
+      width: 20px;
+      height: 20px;
     }
     .message {
       text-align: center;
@@ -116,7 +131,12 @@
     <input type="email" id="email" placeholder="Email" required />
     <input type="password" id="password" placeholder="Password" required />
     <button onclick="signInWithEmail()">Login with Email</button>
-    <button class="google" onclick="signInWithGoogle()">Login with Google</button>
+    
+    <button class="google-btn" onclick="signInWithGoogle()">
+      <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google Logo">
+      Sign in with Google
+    </button>
+
     <div class="message" id="loginMessage"></div>
     <div class="signup-link">
       Not yet a member? <a href="signup.html">Sign up here</a>.
