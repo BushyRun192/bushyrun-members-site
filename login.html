@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Member Login | Bushy Run Chapter No. 192</title>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+
+  <!-- Firebase SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/12.0.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/12.0.0/firebase-auth-compat.js"></script>
+
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Roboto', sans-serif;
+      background-color: #f8f8f8;
+      color: #222;
+      line-height: 1.6;
+    }
+    header {
+      background-color: #800000;
+      color: white;
+      padding: 2.5rem 1rem;
+      text-align: center;
+    }
+    header img {
+      max-width: 100px;
+      height: auto;
+      margin-bottom: 1rem;
+    }
+    header h1 {
+      font-family: 'Libre Baskerville', serif;
+      font-size: 2.25rem;
+      margin: 0;
+    }
+    .login-container {
+      max-width: 400px;
+      margin: 3rem auto;
+      padding: 2rem;
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    .login-container h2 {
+      text-align: center;
+      color: #800000;
+      margin-bottom: 1.5rem;
+    }
+    input[type="email"],
+    input[type="password"] {
+      width: 100%;
+      padding: 0.75rem;
+      margin-bottom: 1rem;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 1rem;
+    }
+    button {
+      width: 100%;
+      padding: 0.75rem;
+      font-size: 1rem;
+      border: none;
+      border-radius: 4px;
+      background-color: #800000;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+      margin-bottom: 0.75rem;
+    }
+    button.google {
+      background-color: #4285F4;
+    }
+    button:hover {
+      opacity: 0.9;
+    }
+    .message {
+      text-align: center;
+      margin-top: 1rem;
+      color: red;
+      font-weight: bold;
+    }
+    footer {
+      background-color: #222;
+      color: #ccc;
+      text-align: center;
+      padding: 2rem 1rem;
+      margin-top: 3rem;
+      font-size: 0.9rem;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <img src="https://paroyalarch.org/wp-content/uploads/2023/05/cropped-Grand-Holy-Royal-Arch2.png" alt="Royal Arch Emblem">
+    <h1>Bushy Run Chapter No. 192</h1>
+    <p>Royal Arch Masons of Pennsylvania</p>
+  </header>
+
+  <div class="login-container">
+    <h2>Member Login</h2>
+    <input type="email" id="email" placeholder="Email" required />
+    <input type="password" id="password" placeholder="Password" required />
+    <button onclick="signInWithEmail()">Login with Email</button>
+    <button class="google" onclick="signInWithGoogle()">Login with Google</button>
+    <div class="message" id="loginMessage"></div>
+  </div>
+
+  <footer>
+    &copy; 2025 Bushy Run Chapter No. 192. All rights reserved.
+  </footer>
+
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyCev2Nen2UzirnyjkV7lhW_2a3jcazdDaY",
+      authDomain: "bushy-run-members-site.firebaseapp.com",
+      projectId: "bushy-run-members-site",
+      storageBucket: "bushy-run-members-site.firebasestorage.app",
+      messagingSenderId: "545538387619",
+      appId: "1:545538387619:web:758d450d1c746912ed9916",
+      measurementId: "G-45DP6N14WL"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+
+    function signInWithEmail() {
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+      const message = document.getElementById("loginMessage");
+
+      auth.signInWithEmailAndPassword(email, password)
+        .then(() => {
+          window.location.href = "members.html"; // change this if your members-only page has a different name
+        })
+        .catch((error) => {
+          message.textContent = error.message;
+        });
+    }
+
+    function signInWithGoogle() {
+      const provider = new firebase.auth.GoogleAuthProvider();
+      const message = document.getElementById("loginMessage");
+
+      auth.signInWithPopup(provider)
+        .then(() => {
+          window.location.href = "members.html"; // change this if your members-only page has a different name
+        })
+        .catch((error) => {
+          message.textContent = error.message;
+        });
+    }
+  </script>
+</body>
+</html>
