@@ -137,31 +137,35 @@
   </footer>
 
   <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
-    import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js";
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
+  import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js";
 
-    const firebaseConfig = {
-      apiKey: "AIzaSyCev2Nen2UzirnyjkV7lhW_2a3jcazdDaY",
-      authDomain: "bushy-run-members-site.firebaseapp.com",
-      projectId: "bushy-run-members-site",
-      storageBucket: "bushy-run-members-site.firebasestorage.app",
-      messagingSenderId: "545538387619",
-      appId: "1:545538387619:web:758d450d1c746912ed9916",
-      measurementId: "G-45DP6N14WL"
-    };
+  const firebaseConfig = {
+    apiKey: "AIzaSyCev2Nen2UzirnyjkV7lhW_2a3jcazdDaY",
+    authDomain: "bushy-run-members-site.firebaseapp.com",
+    projectId: "bushy-run-members-site",
+    storageBucket: "bushy-run-members-site.appspot.com",
+    messagingSenderId: "545538387619",
+    appId: "1:545538387619:web:758d450d1c746912ed9916",
+    measurementId: "G-45DP6N14WL"
+  };
 
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth();
 
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        const welcome = document.getElementById('welcome');
-        welcome.textContent = `Welcome, ${user.displayName || user.email}`;
-      } else {
-        window.location.href = "index.html";
-      }
-    });
-  </script>
+  onAuthStateChanged(auth, (user) => {
+    if (!user) {
+      // Not logged in
+      window.location.href = "index.html";
+    } else if (!user.emailVerified) {
+      // Logged in but email not verified
+      alert("Please verify your email before accessing the members area.");
+      window.location.href = "index.html";
+    }
+    // If verified, do nothing — let them stay
+  });
+</script>
+
 </body>
 </html>
 
