@@ -58,6 +58,17 @@
       border-radius: 4px;
       font-size: 1rem;
     }
+    p.forgot-password {
+      text-align: right;
+      margin-top: -0.5rem;
+      margin-bottom: 1rem;
+    }
+    p.forgot-password a {
+      font-size: 0.9rem;
+      color: #800000;
+      text-decoration: underline;
+      cursor: pointer;
+    }
     button {
       width: 100%;
       padding: 0.75rem;
@@ -79,7 +90,6 @@
     .message {
       text-align: center;
       margin-top: 1rem;
-      color: red;
       font-weight: bold;
     }
     footer {
@@ -103,6 +113,7 @@
     <h2>Member Login</h2>
     <input type="email" id="email" placeholder="Email" required />
     <input type="password" id="password" placeholder="Password" required />
+    <p class="forgot-password"><a onclick="resetPassword()">Forgot Password?</a></p>
     <button onclick="signInWithEmail()">Login with Email</button>
     <button class="google" onclick="signInWithGoogle()">Login with Google</button>
     <div class="message" id="loginMessage"></div>
@@ -133,9 +144,10 @@
 
       auth.signInWithEmailAndPassword(email, password)
         .then(() => {
-          window.location.href = "members.html"; // change this if your members-only page has a different name
+          window.location.href = "members.html";
         })
         .catch((error) => {
+          message.style.color = "red";
           message.textContent = error.message;
         });
     }
@@ -146,9 +158,31 @@
 
       auth.signInWithPopup(provider)
         .then(() => {
-          window.location.href = "members.html"; // change this if your members-only page has a different name
+          window.location.href = "members.html";
         })
         .catch((error) => {
+          message.style.color = "red";
+          message.textContent = error.message;
+        });
+    }
+
+    function resetPassword() {
+      const email = document.getElementById("email").value;
+      const message = document.getElementById("loginMessage");
+
+      if (!email) {
+        message.style.color = "red";
+        message.textContent = "Please enter your email first.";
+        return;
+      }
+
+      auth.sendPasswordResetEmail(email)
+        .then(() => {
+          message.style.color = "green";
+          message.textContent = "Password reset email sent. Check your inbox.";
+        })
+        .catch((error) => {
+          message.style.color = "red";
           message.textContent = error.message;
         });
     }
