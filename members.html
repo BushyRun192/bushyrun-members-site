@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Members Resources | Bushy Run Chapter No. 192</title>
+  <title>Account Settings | Bushy Run Chapter</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
@@ -49,48 +49,6 @@
       font-size: 1.25rem;
       font-weight: bold;
     }
-    .section {
-      max-width: 900px;
-      margin: 3rem auto;
-      padding: 0 1.5rem;
-    }
-    .section h2 {
-      color: #800000;
-      font-size: 2rem;
-      border-bottom: 2px solid #800000;
-      padding-bottom: 0.5rem;
-      margin-bottom: 1.5rem;
-      font-family: 'Libre Baskerville', serif;
-    }
-    .video-container {
-      position: relative;
-      padding-bottom: 56.25%;
-      height: 0;
-      overflow: hidden;
-      margin-bottom: 2rem;
-    }
-    .video-container iframe {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-    }
-    footer {
-      background-color: #222;
-      color: #ccc;
-      text-align: center;
-      padding: 2rem 1rem;
-      margin-top: 3rem;
-      font-size: 0.9rem;
-    }
-    #welcome {
-      text-align: center;
-      margin: 1rem 0;
-      font-weight: bold;
-      font-size: 1.1rem;
-      color: #444;
-    }
     .account-info {
       position: absolute;
       top: 1rem;
@@ -124,13 +82,64 @@
     .logout-btn-inline:hover {
       text-decoration: underline;
     }
+    .container {
+      max-width: 500px;
+      margin: 3rem auto;
+      background: white;
+      padding: 2rem;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    h2 {
+      text-align: center;
+      color: #800000;
+      margin-bottom: 2rem;
+    }
+    label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: bold;
+    }
+    input[type="text"],
+    input[type="password"] {
+      width: 100%;
+      padding: 0.5rem;
+      margin-bottom: 1.5rem;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    button {
+      background-color: #800000;
+      color: white;
+      padding: 0.6rem 1.2rem;
+      border: none;
+      border-radius: 4px;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #5c0000;
+    }
+    .status {
+      text-align: center;
+      margin-top: 1rem;
+      color: green;
+    }
+    @media (max-width: 600px) {
+      .account-info {
+        right: 0.5rem;
+        top: 0.5rem;
+        padding: 0.3rem 0.6rem;
+        gap: 0.3rem;
+      }
+    }
   </style>
 </head>
 <body>
   <header>
     <div class="account-info">
       <i class="fas fa-user-circle"></i>
-      <a href="account.html">Account</a>
+      <a href="#">Account</a>
       <button class="logout-btn-inline" id="logout">Log Out</button>
     </div>
     <img src="https://paroyalarch.org/wp-content/uploads/2023/05/cropped-Grand-Holy-Royal-Arch2.png" alt="Royal Arch Emblem">
@@ -140,42 +149,33 @@
 
   <nav>
     <div class="nav-links">
-      <a href="#">Education</a>
-      <a href="#">Resources</a>
-      <a href="#">Events</a>
-      <a href="#">News</a>
+      <a href="members.html">Education</a>
+      <a href="members.html">Resources</a>
+      <a href="members.html">Events</a>
+      <a href="members.html">News</a>
     </div>
   </nav>
 
-  <div id="welcome"></div>
+  <div class="container">
+    <h2>Update Account</h2>
+    <form id="accountForm">
+      <label for="firstName">First Name</label>
+      <input type="text" id="firstName" placeholder="Enter your first name">
 
-  <section class="section">
-    <h2>Members Resources</h2>
+      <label for="lastName">Last Name</label>
+      <input type="text" id="lastName" placeholder="Enter your last name">
 
-    <h3>Official Charity of Royal Arch Chapters in PA</h3>
-    <div class="video-container">
-      <iframe src="https://www.youtube.com/embed/TBT4SDNhl78" frameborder="0" allowfullscreen></iframe>
-    </div>
+      <label for="newPassword">New Password</label>
+      <input type="password" id="newPassword" placeholder="Enter a new password">
 
-    <h3>Background on York Rite Freemasonry</h3>
-    <div class="video-container">
-      <iframe src="https://www.youtube.com/embed/tCf-h_fp3Ig" frameborder="0" allowfullscreen></iframe>
-    </div>
-
-    <h3>Ritual & Degree Resources</h3>
-    <p>Coming soon: downloadable PDFs and degree rehearsal materials.</p>
-
-    <h3>Officer Tools</h3>
-    <p>Check back soon for officer handbooks, guidelines, and responsibilities.</p>
-  </section>
-
-  <footer>
-    &copy; 2025 Bushy Run Chapter No. 192. All rights reserved.
-  </footer>
+      <button type="submit">Update</button>
+    </form>
+    <div class="status" id="status"></div>
+  </div>
 
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
-    import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js";
+    import { getAuth, onAuthStateChanged, updatePassword, updateProfile, signOut } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js";
 
     const firebaseConfig = {
       apiKey: "AIzaSyCev2Nen2UzirnyjkV7lhW_2a3jcazdDaY",
@@ -190,7 +190,10 @@
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
 
-    const logoutBtn = document.getElementById("logout");
+    const form = document.getElementById('accountForm');
+    const status = document.getElementById('status');
+    const logoutBtn = document.getElementById('logout');
+
     logoutBtn.addEventListener("click", () => {
       signOut(auth).then(() => {
         window.location.href = "login.html";
@@ -198,11 +201,30 @@
     });
 
     onAuthStateChanged(auth, (user) => {
-      if (user && user.emailVerified) {
-        const welcome = document.getElementById('welcome');
-        welcome.textContent = `Welcome, ${user.displayName || user.email}`;
+      if (!user) {
+        window.location.href = 'login.html';
       } else {
-        window.location.href = "login.html";
+        form.addEventListener('submit', async (e) => {
+          e.preventDefault();
+          const newPassword = document.getElementById('newPassword').value;
+          const firstName = document.getElementById('firstName').value.trim();
+          const lastName = document.getElementById('lastName').value.trim();
+          const displayName = `${firstName} ${lastName}`.trim();
+
+          try {
+            if (displayName) {
+              await updateProfile(user, { displayName });
+            }
+            if (newPassword) {
+              await updatePassword(user, newPassword);
+            }
+            status.textContent = 'Account updated successfully.';
+            status.style.color = 'green';
+          } catch (error) {
+            status.textContent = 'Error: ' + error.message;
+            status.style.color = 'red';
+          }
+        });
       }
     });
   </script>
