@@ -89,6 +89,8 @@
 <body>
   <div class="container">
     <h2>Create Account</h2>
+    <input type="text" id="firstName" placeholder="First Name" required />
+    <input type="text" id="lastName" placeholder="Last Name" required />
     <input type="email" id="email" placeholder="Email" required />
     <input type="password" id="password" placeholder="Password" required />
     <input type="password" id="confirm-password" placeholder="Confirm Password" required />
@@ -113,7 +115,8 @@
       createUserWithEmailAndPassword,
       signInWithPopup,
       GoogleAuthProvider,
-      sendEmailVerification
+      sendEmailVerification,
+      updateProfile
     } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js";
 
     const firebaseConfig = {
@@ -135,6 +138,9 @@
       const email = document.getElementById("email").value.trim();
       const password = document.getElementById("password").value;
       const confirm = document.getElementById("confirm-password").value;
+      const firstName = document.getElementById("firstName").value.trim();
+      const lastName = document.getElementById("lastName").value.trim();
+      const displayName = `${firstName} ${lastName}`.trim();
 
       if (password !== confirm) {
         message.style.color = "red";
@@ -144,6 +150,7 @@
 
       try {
         const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+        await updateProfile(userCredential.user, { displayName });
         await sendEmailVerification(userCredential.user, {
           url: 'https://members.bushyrun192.org/verified.html'
         });
