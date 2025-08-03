@@ -7,6 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <style>
     body {
       margin: 0;
@@ -20,6 +21,7 @@
       color: white;
       padding: 3rem 1rem;
       text-align: center;
+      position: relative;
     }
     header img {
       max-width: 120px;
@@ -89,10 +91,48 @@
       font-size: 1.1rem;
       color: #444;
     }
+    .account-info {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      background-color: #5c0000;
+      padding: 0.4rem 0.8rem;
+      border-radius: 5px;
+    }
+    .account-info i {
+      color: white;
+      font-size: 1.1rem;
+    }
+    .account-info a {
+      color: white;
+      text-decoration: none;
+      font-size: 0.95rem;
+      font-weight: bold;
+    }
+    .logout-btn-inline {
+      margin-left: 0.75rem;
+      font-size: 0.9rem;
+      background: none;
+      border: none;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    .logout-btn-inline:hover {
+      text-decoration: underline;
+    }
   </style>
 </head>
 <body>
   <header>
+    <div class="account-info">
+      <i class="fas fa-user-circle"></i>
+      <a href="#">Account</a>
+      <button class="logout-btn-inline" id="logout">Log Out</button>
+    </div>
     <img src="https://paroyalarch.org/wp-content/uploads/2023/05/cropped-Grand-Holy-Royal-Arch2.png" alt="Royal Arch Emblem">
     <h1>Bushy Run Chapter No. 192</h1>
     <p>Royal Arch Masons of Pennsylvania, Irwin, PA</p>
@@ -100,13 +140,10 @@
 
   <nav>
     <div class="nav-links">
-      <a href="index.html">Home</a>
-      <a href="meeting-info.html">Meeting Info</a>
-      <a href="officers.html">Officers</a>
-      <a href="past-high-priests.html">Past High Priests</a>
-      <a href="history.html">Our History</a>
-      <a href="join.html">Join Us</a>
-      <a href="contact.html">Contact</a>
+      <a href="#">Education</a>
+      <a href="#">Resources</a>
+      <a href="#">Events</a>
+      <a href="#">News</a>
     </div>
   </nav>
 
@@ -137,35 +174,37 @@
   </footer>
 
   <script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
-  import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js";
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
+    import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js";
 
-  const firebaseConfig = {
-    apiKey: "AIzaSyCev2Nen2UzirnyjkV7lhW_2a3jcazdDaY",
-    authDomain: "bushy-run-members-site.firebaseapp.com",
-    projectId: "bushy-run-members-site",
-    storageBucket: "bushy-run-members-site.appspot.com",
-    messagingSenderId: "545538387619",
-    appId: "1:545538387619:web:758d450d1c746912ed9916",
-    measurementId: "G-45DP6N14WL"
-  };
+    const firebaseConfig = {
+      apiKey: "AIzaSyCev2Nen2UzirnyjkV7lhW_2a3jcazdDaY",
+      authDomain: "bushy-run-members-site.firebaseapp.com",
+      projectId: "bushy-run-members-site",
+      storageBucket: "bushy-run-members-site.appspot.com",
+      messagingSenderId: "545538387619",
+      appId: "1:545538387619:web:758d450d1c746912ed9916",
+      measurementId: "G-45DP6N14WL"
+    };
 
-  const app = initializeApp(firebaseConfig);
-  const auth = getAuth();
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
 
-  onAuthStateChanged(auth, (user) => {
-    if (!user) {
-      // Not logged in
-      window.location.href = "index.html";
-    } else if (!user.emailVerified) {
-      // Logged in but email not verified
-      alert("Please verify your email before accessing the members area.");
-      window.location.href = "index.html";
-    }
-    // If verified, do nothing — let them stay
-  });
-</script>
+    const logoutBtn = document.getElementById("logout");
+    logoutBtn.addEventListener("click", () => {
+      signOut(auth).then(() => {
+        window.location.href = "login.html";
+      });
+    });
 
+    onAuthStateChanged(auth, (user) => {
+      if (user && user.emailVerified) {
+        const welcome = document.getElementById('welcome');
+        welcome.textContent = `Welcome, ${user.displayName || user.email}`;
+      } else {
+        window.location.href = "login.html";
+      }
+    });
+  </script>
 </body>
 </html>
-
