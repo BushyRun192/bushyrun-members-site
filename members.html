@@ -1,181 +1,132 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Account Settings | Bushy Run Chapter</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Sign Up | Bushy Run Chapter</title>
+  <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;700&display=swap" rel="stylesheet" />
   <style>
     body {
-      margin: 0;
-      font-family: 'Roboto', sans-serif;
-      background-color: #f8f8f8;
-      color: #222;
-      line-height: 1.6;
-    }
-    header {
-      background-color: #800000;
-      color: white;
-      padding: 3rem 1rem;
-      text-align: center;
-      position: relative;
-    }
-    header img {
-      max-width: 120px;
-      height: auto;
-      margin-bottom: 1rem;
-    }
-    header h1 {
-      font-family: 'Libre Baskerville', serif;
-      font-size: 2.5rem;
-      margin: 0;
-    }
-    nav {
-      background-color: #5c0000;
-      padding: 0.75rem 1rem;
-    }
-    .nav-links {
+      font-family: 'Raleway', sans-serif;
+      background: linear-gradient(to right, #eee, #ddd);
       display: flex;
       justify-content: center;
-      flex-wrap: wrap;
-      gap: 2.5rem;
-    }
-    .nav-links a {
-      color: white;
-      text-decoration: none;
-      font-size: 1.25rem;
-      font-weight: bold;
-    }
-    .account-info {
-      position: absolute;
-      top: 1rem;
-      right: 1rem;
-      display: flex;
       align-items: center;
-      gap: 0.4rem;
-      background-color: #5c0000;
-      padding: 0.4rem 0.8rem;
-      border-radius: 5px;
-    }
-    .account-info i {
-      color: white;
-      font-size: 1.1rem;
-    }
-    .account-info a {
-      color: white;
-      text-decoration: none;
-      font-size: 0.95rem;
-      font-weight: bold;
-    }
-    .logout-btn-inline {
-      margin-left: 0.75rem;
-      font-size: 0.9rem;
-      background: none;
-      border: none;
-      color: white;
-      font-weight: bold;
-      cursor: pointer;
-    }
-    .logout-btn-inline:hover {
-      text-decoration: underline;
+      height: 100vh;
+      margin: 0;
     }
     .container {
-      max-width: 500px;
-      margin: 3rem auto;
       background: white;
-      padding: 2rem;
-      border-radius: 8px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      padding: 2.5rem;
+      border-radius: 12px;
+      box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+      max-width: 420px;
+      width: 100%;
     }
     h2 {
       text-align: center;
       color: #800000;
-      margin-bottom: 2rem;
-    }
-    label {
-      display: block;
-      margin-bottom: 0.5rem;
-      font-weight: bold;
-    }
-    input[type="text"],
-    input[type="password"] {
-      width: 100%;
-      padding: 0.5rem;
       margin-bottom: 1.5rem;
+    }
+    #welcomeMessage {
+      text-align: center;
+      color: #444;
+      font-weight: bold;
+      margin-top: -1rem;
+      margin-bottom: 1rem;
+    }
+    input {
+      width: 100%;
+      padding: 0.75rem;
+      margin: 0.5rem 0;
       border: 1px solid #ccc;
-      border-radius: 4px;
+      border-radius: 6px;
+      font-size: 1rem;
     }
     button {
-      background-color: #800000;
+      width: 100%;
+      padding: 0.8rem;
+      background: #800000;
       color: white;
-      padding: 0.6rem 1.2rem;
       border: none;
-      border-radius: 4px;
-      font-size: 1rem;
+      border-radius: 6px;
       cursor: pointer;
+      font-size: 1rem;
+      margin-top: 1rem;
+      transition: background 0.3s ease;
     }
     button:hover {
-      background-color: #5c0000;
+      background: #a00000;
     }
-    .status {
+    .google-btn {
+      background: white;
+      color: #444;
+      border: 1px solid #ccc;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.6rem;
+      margin-top: 0.8rem;
+      padding: 0.75rem;
+      font-weight: bold;
+      font-size: 1rem;
+    }
+    .google-btn img {
+      width: 20px;
+      height: 20px;
+    }
+    .link {
       text-align: center;
-      margin-top: 1rem;
-      color: green;
+      margin-top: 1.2rem;
+      font-size: 0.95rem;
     }
-    @media (max-width: 600px) {
-      .account-info {
-        right: 0.5rem;
-        top: 0.5rem;
-        padding: 0.3rem 0.6rem;
-        gap: 0.3rem;
-      }
+    .link a {
+      color: #800000;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    .message {
+      text-align: center;
+      color: red;
+      margin-top: 0.75rem;
+      font-size: 0.95rem;
     }
   </style>
 </head>
 <body>
-  <header>
-    <div class="account-info">
-      <i class="fas fa-user-circle"></i>
-      <a href="#">Account</a>
-      <button class="logout-btn-inline" id="logout">Log Out</button>
-    </div>
-    <img src="https://paroyalarch.org/wp-content/uploads/2023/05/cropped-Grand-Holy-Royal-Arch2.png" alt="Royal Arch Emblem">
-    <h1>Bushy Run Chapter No. 192</h1>
-    <p>Royal Arch Masons of Pennsylvania, Irwin, PA</p>
-  </header>
-
-  <nav>
-    <div class="nav-links">
-      <a href="members.html">Education</a>
-      <a href="members.html">Resources</a>
-      <a href="members.html">Events</a>
-      <a href="members.html">News</a>
-    </div>
-  </nav>
-
   <div class="container">
-    <h2>Update Account</h2>
-    <form id="accountForm">
-      <label for="firstName">First Name</label>
-      <input type="text" id="firstName" placeholder="Enter your first name">
+    <h2>Create Account</h2>
+    <div id="welcomeMessage"></div>
+    <input type="text" id="firstName" placeholder="First Name" required />
+    <input type="text" id="lastName" placeholder="Last Name" required />
+    <input type="email" id="email" placeholder="Email" required />
+    <input type="password" id="password" placeholder="Password" required />
+    <input type="password" id="confirm-password" placeholder="Confirm Password" required />
+    <button id="signup">Sign Up</button>
 
-      <label for="lastName">Last Name</label>
-      <input type="text" id="lastName" placeholder="Enter your last name">
+    <button id="google-signup" class="google-btn">
+      <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google logo" />
+      Sign up with Google
+    </button>
 
-      <label for="newPassword">New Password</label>
-      <input type="password" id="newPassword" placeholder="Enter a new password">
+    <div class="message" id="message"></div>
 
-      <button type="submit">Update</button>
-    </form>
-    <div class="status" id="status"></div>
+    <div class="link">
+      Already have an account? <a href="index.html">Log In</a>
+    </div>
   </div>
 
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
-    import { getAuth, onAuthStateChanged, updatePassword, updateProfile, signOut } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js";
+    import {
+      getAuth,
+      createUserWithEmailAndPassword,
+      signInWithPopup,
+      GoogleAuthProvider,
+      sendEmailVerification,
+      updateProfile,
+      onAuthStateChanged
+    } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js";
 
     const firebaseConfig = {
       apiKey: "AIzaSyCev2Nen2UzirnyjkV7lhW_2a3jcazdDaY",
@@ -188,43 +139,55 @@
     };
 
     const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-
-    const form = document.getElementById('accountForm');
-    const status = document.getElementById('status');
-    const logoutBtn = document.getElementById('logout');
-
-    logoutBtn.addEventListener("click", () => {
-      signOut(auth).then(() => {
-        window.location.href = "login.html";
-      });
-    });
+    const auth = getAuth();
+    const provider = new GoogleAuthProvider();
+    const message = document.getElementById("message");
 
     onAuthStateChanged(auth, (user) => {
-      if (!user) {
-        window.location.href = 'login.html';
-      } else {
-        form.addEventListener('submit', async (e) => {
-          e.preventDefault();
-          const newPassword = document.getElementById('newPassword').value;
-          const firstName = document.getElementById('firstName').value.trim();
-          const lastName = document.getElementById('lastName').value.trim();
-          const displayName = `${firstName} ${lastName}`.trim();
+      if (user && user.displayName) {
+        const firstName = user.displayName.split(" ")[0];
+        document.getElementById("welcomeMessage").textContent = `Welcome, ${firstName}!`;
+      }
+    });
 
-          try {
-            if (displayName) {
-              await updateProfile(user, { displayName });
-            }
-            if (newPassword) {
-              await updatePassword(user, newPassword);
-            }
-            status.textContent = 'Account updated successfully.';
-            status.style.color = 'green';
-          } catch (error) {
-            status.textContent = 'Error: ' + error.message;
-            status.style.color = 'red';
-          }
+    document.getElementById("signup").addEventListener("click", async () => {
+      const email = document.getElementById("email").value.trim();
+      const password = document.getElementById("password").value;
+      const confirm = document.getElementById("confirm-password").value;
+      const firstName = document.getElementById("firstName").value.trim();
+      const lastName = document.getElementById("lastName").value.trim();
+      const displayName = `${firstName} ${lastName}`.trim();
+
+      if (password !== confirm) {
+        message.style.color = "red";
+        message.textContent = "Passwords do not match.";
+        return;
+      }
+
+      try {
+        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+        await updateProfile(userCredential.user, { displayName });
+        await sendEmailVerification(userCredential.user, {
+          url: 'https://members.bushyrun192.org/verified.html'
         });
+        message.style.color = "green";
+        message.innerHTML = "Signup successful! A verification email has been sent. Redirecting to login in 5 seconds...<br><br><a href='index.html'>Click here if not redirected.</a>";
+        setTimeout(() => {
+          window.location.href = "index.html";
+        }, 5000);
+      } catch (error) {
+        message.style.color = "red";
+        message.textContent = "Signup error: " + error.message;
+      }
+    });
+
+    document.getElementById("google-signup").addEventListener("click", async () => {
+      try {
+        await signInWithPopup(auth, provider);
+        window.location.href = "members.html";
+      } catch (error) {
+        message.style.color = "red";
+        message.textContent = "Google sign-in error: " + error.message;
       }
     });
   </script>
