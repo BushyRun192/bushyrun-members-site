@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Account Settings | Bushy Run Chapter</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Roboto', sans-serif;
+      background-color: #f8f8f8;
+      color: #222;
+      line-height: 1.6;
+    }
+    header {
+      background-color: #800000;
+      color: white;
+      padding: 2rem;
+      text-align: center;
+    }
+    header h1 {
+      font-family: 'Libre Baskerville', serif;
+      font-size: 2rem;
+    }
+    .container {
+      max-width: 500px;
+      margin: 3rem auto;
+      background: white;
+      padding: 2rem;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    h2 {
+      text-align: center;
+      color: #800000;
+      margin-bottom: 2rem;
+    }
+    label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: bold;
+    }
+    input[type="password"] {
+      width: 100%;
+      padding: 0.5rem;
+      margin-bottom: 1.5rem;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    button {
+      background-color: #800000;
+      color: white;
+      padding: 0.6rem 1.2rem;
+      border: none;
+      border-radius: 4px;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #5c0000;
+    }
+    .status {
+      text-align: center;
+      margin-top: 1rem;
+      color: green;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Account Settings</h1>
+  </header>
+
+  <div class="container">
+    <h2>Update Password</h2>
+    <form id="passwordForm">
+      <label for="newPassword">New Password</label>
+      <input type="password" id="newPassword" required>
+      <button type="submit">Update Password</button>
+    </form>
+    <div class="status" id="status"></div>
+  </div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
+    import { getAuth, onAuthStateChanged, updatePassword } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyCev2Nen2UzirnyjkV7lhW_2a3jcazdDaY",
+      authDomain: "bushy-run-members-site.firebaseapp.com",
+      projectId: "bushy-run-members-site",
+      storageBucket: "bushy-run-members-site.appspot.com",
+      messagingSenderId: "545538387619",
+      appId: "1:545538387619:web:758d450d1c746912ed9916",
+      measurementId: "G-45DP6N14WL"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    const form = document.getElementById('passwordForm');
+    const status = document.getElementById('status');
+
+    onAuthStateChanged(auth, (user) => {
+      if (!user) {
+        window.location.href = 'login.html';
+      }
+
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const newPassword = document.getElementById('newPassword').value;
+
+        try {
+          await updatePassword(user, newPassword);
+          status.textContent = 'Password updated successfully.';
+        } catch (error) {
+          status.textContent = 'Error: ' + error.message;
+          status.style.color = 'red';
+        }
+      });
+    });
+  </script>
+</body>
+</html>
