@@ -7,6 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <style>
     body {
       margin: 0;
@@ -20,13 +21,61 @@
       color: white;
       padding: 2rem;
       text-align: center;
+      position: relative;
     }
     header h1 {
       font-family: 'Libre Baskerville', serif;
       font-size: 2rem;
+      margin: 0;
+    }
+    nav {
+      background-color: #5c0000;
+      padding: 0.75rem 1rem;
+    }
+    .nav-links {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 2.5rem;
+    }
+    .nav-links a {
+      color: white;
+      text-decoration: none;
+      font-size: 1.25rem;
+      font-weight: bold;
+    }
+    .account-info {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      background-color: #5c0000;
+      padding: 0.6rem 0.8rem;
+      border-radius: 6px;
+      gap: 0.3rem;
+    }
+    .account-info i {
+      font-size: 1.6rem;
+      color: white;
+      cursor: pointer;
+    }
+    .account-info button {
+      color: white;
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: bold;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 0;
+    }
+    .account-info button:hover {
+      text-decoration: underline;
     }
     .container {
-      max-width: 500px;
+      max-width: 600px;
       margin: 3rem auto;
       background: white;
       padding: 2rem;
@@ -43,7 +92,7 @@
       margin-bottom: 0.5rem;
       font-weight: bold;
     }
-    input[type="password"] {
+    input[type="text"], input[type="email"], input[type="password"] {
       width: 100%;
       padding: 0.5rem;
       margin-bottom: 1.5rem;
@@ -71,22 +120,57 @@
 </head>
 <body>
   <header>
+    <div class="account-info">
+      <a href="account.html"><i class="fas fa-user-circle"></i></a>
+      <button id="logout">Log Out</button>
+    </div>
     <h1>Account Settings</h1>
   </header>
 
+  <nav>
+    <div class="nav-links">
+      <a href="members.html">Home</a>
+      <a href="#">Education</a>
+      <a href="#">Resources</a>
+      <a href="#">Events</a>
+      <a href="#">News</a>
+    </div>
+  </nav>
+
   <div class="container">
-    <h2>Update Password</h2>
-    <form id="passwordForm">
+    <h2>Your Info</h2>
+    <form id="accountForm">
+      <label>Email Address (cannot be changed)</label>
+      <input type="email" id="email" disabled>
+      <label for="firstName">First Name</label>
+      <input type="text" id="firstName">
+      <label for="lastName">Last Name</label>
+      <input type="text" id="lastName">
+
+      <h2>Change Password</h2>
+      <label for="currentPassword">Current Password</label>
+      <input type="password" id="currentPassword" required>
       <label for="newPassword">New Password</label>
       <input type="password" id="newPassword" required>
-      <button type="submit">Update Password</button>
+      <label for="confirmPassword">Confirm New Password</label>
+      <input type="password" id="confirmPassword" required>
+
+      <button type="submit">Update Account</button>
     </form>
     <div class="status" id="status"></div>
   </div>
 
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
-    import { getAuth, onAuthStateChanged, updatePassword } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js";
+    import {
+      getAuth,
+      onAuthStateChanged,
+      updatePassword,
+      reauthenticateWithCredential,
+      EmailAuthProvider,
+      updateProfile,
+      signOut
+    } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js";
 
     const firebaseConfig = {
       apiKey: "AIzaSyCev2Nen2UzirnyjkV7lhW_2a3jcazdDaY",
@@ -101,26 +185,49 @@
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
 
-    const form = document.getElementById('passwordForm');
+    const form = document.getElementById('accountForm');
     const status = document.getElementById('status');
+
+    document.getElementById("logout").addEventListener("click", () => {
+      signOut(auth).then(() => window.location.href = "login.html");
+    });
 
     onAuthStateChanged(auth, (user) => {
       if (!user) {
         window.location.href = 'login.html';
+      } else {
+        document.getElementById("email").value = user.email;
+        const [first, last] = (user.displayName || " ").split(" ");
+        document.getElementById("firstName").value = first || "";
+        document.getElementById("lastName").value = last || "";
+
+        form.addEventListener('submit', async (e) => {
+          e.preventDefault();
+          const firstName = document.getElementById("firstName").value.trim();
+          const lastName = document.getElementById("lastName").value.trim();
+          const currentPassword = document.getElementById("currentPassword").value;
+          const newPassword = document.getElementById("newPassword").value;
+          const confirmPassword = document.getElementById("confirmPassword").value;
+
+          if (newPassword !== confirmPassword) {
+            status.textContent = "New passwords do not match.";
+            status.style.color = "red";
+            return;
+          }
+
+          try {
+            const credential = EmailAuthProvider.credential(user.email, currentPassword);
+            await reauthenticateWithCredential(user, credential);
+            await updatePassword(user, newPassword);
+            await updateProfile(user, { displayName: `${firstName} ${lastName}` });
+            status.textContent = "Account updated successfully.";
+            status.style.color = "green";
+          } catch (error) {
+            status.textContent = "Error: " + error.message;
+            status.style.color = "red";
+          }
+        });
       }
-
-      form.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        const newPassword = document.getElementById('newPassword').value;
-
-        try {
-          await updatePassword(user, newPassword);
-          status.textContent = 'Password updated successfully.';
-        } catch (error) {
-          status.textContent = 'Error: ' + error.message;
-          status.style.color = 'red';
-        }
-      });
     });
   </script>
 </body>
