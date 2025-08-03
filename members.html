@@ -103,7 +103,11 @@
       border-radius: 6px;
       gap: 0.3rem;
     }
-    .account-info a,
+    .account-info i {
+      font-size: 1.6rem;
+      color: white;
+      cursor: pointer;
+    }
     .account-info button {
       color: white;
       text-decoration: none;
@@ -114,14 +118,8 @@
       cursor: pointer;
       padding: 0;
     }
-    .account-info a:hover,
     .account-info button:hover {
       text-decoration: underline;
-    }
-    .account-info i {
-      color: white;
-      font-size: 1.2rem;
-      margin-bottom: 0.25rem;
     }
     @media (max-width: 600px) {
       .account-info {
@@ -135,8 +133,7 @@
 <body>
   <header>
     <div class="account-info">
-      <i class="fas fa-user-circle"></i>
-      <a href="account.html">Account</a>
+      <a href="account.html"><i class="fas fa-user-circle"></i></a>
       <button id="logout">Log Out</button>
     </div>
     <img src="https://paroyalarch.org/wp-content/uploads/2023/05/cropped-Grand-Holy-Royal-Arch2.png" alt="Royal Arch Emblem">
